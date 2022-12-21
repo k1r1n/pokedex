@@ -1,0 +1,16 @@
+export const COLORS = {
+  CARD_SHADOW: "#d5d6dc",
+  CARD_SHADOW_HOVER: "#aeaeae",
+  CARD_BACKGROUND: "#f3f4f7",
+  BUTTON_COLOR: "#dc7777",
+  METER_COLOR: "#e4e4e4",
+  METER_ACTIVE: "#f3701a",
+  METER_SHADOW: "#d4d4d4",
+  BOTTOM_BAR_BACKGROUND: "#ec5656",
+  BOTTOM_BAR_SHADOW: "#d9333387",
+  TEXT_COLOR: "#ffffff",
+  MODAL_BACKDROP: "#000000a3",
+  MODAL_CONTENT: "#ffffff",
+  MODAL_SHADOW: "#474444",
+  BORDER_SEARCH: "#e6e6e6",
+};
