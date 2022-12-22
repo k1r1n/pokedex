@@ -1,0 +1,1 @@
+export { colorType } from "./colorType";

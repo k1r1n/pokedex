@@ -1,1 +1,1 @@
-export { default as App } from "./MyPokedex";
+export { default as Pokedex } from "./Pokedex";

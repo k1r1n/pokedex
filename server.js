@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
 const url = require("url");
+const cors = require("cors");
 const { cards } = require("./cards.json");
 const port = process.env.PORT || 3030;
+
+app.use(cors());
 
 app.get("/api/cards", (req, res) => {
   const url_parts = url.parse(req.url, true);
@@ -18,7 +21,7 @@ app.get("/api/cards", (req, res) => {
 
   const filter = cards.filter(
     (item) =>
-      item.name.toLowerCase().indexOf(name.toLowerCase()) > -1 &&
+      item.name.toLowerCase().indexOf(name.toLowerCase()) > -1 ||
       item.type.toLowerCase().indexOf(type.toLowerCase()) > -1
   );
 
