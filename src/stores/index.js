@@ -1,1 +1,0 @@
-export { pokedexState } from "./pokedexAtom";
