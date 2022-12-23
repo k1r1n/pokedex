@@ -15,7 +15,7 @@ app.get("/api/cards", (req, res) => {
   if (!name && !type) {
     return res.json({
       data: cards.slice(0, limit),
-      length: limit,
+      count: limit,
     });
   }
 
@@ -27,7 +27,7 @@ app.get("/api/cards", (req, res) => {
 
   return res.json({
     data: filter,
-    length: filter.length,
+    count: filter.length,
   });
 });
 
