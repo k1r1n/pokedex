@@ -3,14 +3,11 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { Pokedex } from "./containers";
 import reportWebVitals from "./reportWebVitals";
-import { RecoilRoot } from "recoil";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <Pokedex />
-    </RecoilRoot>
+    <Pokedex />
   </React.StrictMode>
 );
 

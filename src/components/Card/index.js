@@ -1,8 +1,9 @@
 import { CardStyle } from "./Card.styled";
 
-export const Card = ({ item, onClick }) => {
+export const Card = ({ id, item, onClick }) => {
   return (
     <CardStyle
+      data-testid={id}
       onClick={onClick}
       className="card"
       card={item.imageUrl}

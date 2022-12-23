@@ -1,5 +1,7 @@
 import { ButtonStyle } from "./Button.styled";
 
-export const Button = ({ onClick }) => {
-  return <ButtonStyle onClick={onClick}>+</ButtonStyle>;
-};
+export const Button = ({ id, onClick }) => (
+  <ButtonStyle data-testid={id} onClick={onClick}>
+    +
+  </ButtonStyle>
+);

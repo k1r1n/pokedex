@@ -16,9 +16,8 @@ function Pokedex() {
   }, [search, pokedex]);
 
   const getCard = async (value) => {
-    const response = await axios(
-      `${ENDPOINT_CARDS_URL}name=${value}&type=${value}`
-    );
+    const response =
+      (await axios(`${ENDPOINT_CARDS_URL}name=${value}&type=${value}`)) || {};
 
     const prepareData = response.data?.data.map((item) => {
       const hp = (item.hp > 100 && 100) || parseInt(item.hp) || 0;
@@ -64,20 +63,21 @@ function Pokedex() {
 
   const onUnSelectCard = (item) => {
     setPokedex((prevState) => [
-      ...prevState.filter((_item) => _item.id != item.id),
+      ...prevState.filter((_item) => _item.id !== item.id),
     ]);
     setPokemons((prevState) => [...prevState, item]);
   };
 
   return (
-    <ContainerStyle>
-      <h1>My Pokédex</h1>
-      <label>
+    <ContainerStyle data-testid="container">
+      <h1 data-testid="title">My Pokédex</h1>
+      <label data-testid="found-pokedex">
         Found {pokedex.length} item{pokedex.length > 0 && "s"}
       </label>
-      <ListStyle>
+      <ListStyle id="mypokedex-list">
         {pokedex.map((item) => (
           <Card
+            id="card-pokedex"
             onClick={() => onUnSelectCard(item)}
             key={item.id}
             item={item}
@@ -85,16 +85,17 @@ function Pokedex() {
         ))}
       </ListStyle>
 
-      <Button onClick={onClick} />
+      <Button id="add-pokedex" onClick={onClick} />
       {isOpen && (
-        <Modal onClose={onClose}>
-          <SearchInput onChange={onChange} />
-          <label>
+        <Modal id="modal" onClose={onClose}>
+          <SearchInput id="search-input" onChange={onChange} />
+          <label data-testid="found-pokemon">
             Found {pokemons.length} item{pokemons.length > 0 && "s"}
           </label>
           <ListStyle className="scroll">
             {pokemons.map((item) => (
               <Card
+                id="card-pokemon"
                 onClick={() => onSelectCard(item)}
                 key={item.id}
                 item={item}
