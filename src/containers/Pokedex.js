@@ -1,5 +1,5 @@
 import axios from "axios";
-import { xorBy } from "lodash";
+import { pullAllBy, isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { ENDPOINT_CARDS_URL } from "../constants";
 import { ContainerStyle, ListStyle } from "./Pokedex.styled";
@@ -15,7 +15,7 @@ function Pokedex() {
     getCard(search);
   }, [search, pokedex]);
 
-  const getCard = async (value) => {
+  async function getCard(value) {
     const response =
       (await axios(`${ENDPOINT_CARDS_URL}name=${value}&type=${value}`)) || {};
 
@@ -46,8 +46,8 @@ function Pokedex() {
       };
     });
 
-    setPokemons(xorBy(prepareData, pokedex, "id"));
-  };
+    setPokemons(pullAllBy(prepareData, pokedex, "id"));
+  }
 
   const onChange = (event) => {
     setSearch(event.target.value.trim());
@@ -62,17 +62,15 @@ function Pokedex() {
   };
 
   const onUnSelectCard = (item) => {
-    setPokedex((prevState) => [
-      ...prevState.filter((_item) => _item.id !== item.id),
-    ]);
-    setPokemons((prevState) => [...prevState, item]);
+    setPokedex(pokedex.filter((_item) => _item.id !== item.id));
+    setPokemons([...pokemons, item]);
   };
 
   return (
     <ContainerStyle data-testid="container">
       <h1 data-testid="title">My Pokédex</h1>
       <label data-testid="found-pokedex">
-        Found {pokedex.length} item{pokedex.length > 0 && "s"}
+        Found {pokedex?.length} item{pokedex?.length > 0 && "s"}
       </label>
       <ListStyle id="mypokedex-list">
         {pokedex.map((item) => (
@@ -90,17 +88,18 @@ function Pokedex() {
         <Modal id="modal" onClose={onClose}>
           <SearchInput id="search-input" onChange={onChange} />
           <label data-testid="found-pokemon">
-            Found {pokemons.length} item{pokemons.length > 0 && "s"}
+            Found {pokemons?.length} item{pokemons?.length > 0 && "s"}
           </label>
           <ListStyle className="scroll">
-            {pokemons.map((item) => (
-              <Card
-                id={`card-pokemon-${item.id}`}
-                onClick={() => onSelectCard(item)}
-                key={item.id}
-                item={item}
-              />
-            ))}
+            {!isEmpty(pokemons) &&
+              pokemons.map((item) => (
+                <Card
+                  id={`card-pokemon-${item.id}`}
+                  onClick={() => onSelectCard(item)}
+                  key={item.id}
+                  item={item}
+                />
+              ))}
           </ListStyle>
         </Modal>
       )}
