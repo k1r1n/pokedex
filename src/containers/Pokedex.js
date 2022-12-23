@@ -77,7 +77,7 @@ function Pokedex() {
       <ListStyle id="mypokedex-list">
         {pokedex.map((item) => (
           <Card
-            id="card-pokedex"
+            id={`card-pokedex-${item.id}`}
             onClick={() => onUnSelectCard(item)}
             key={item.id}
             item={item}
@@ -95,7 +95,7 @@ function Pokedex() {
           <ListStyle className="scroll">
             {pokemons.map((item) => (
               <Card
-                id="card-pokemon"
+                id={`card-pokemon-${item.id}`}
                 onClick={() => onSelectCard(item)}
                 key={item.id}
                 item={item}

@@ -25,6 +25,7 @@ describe("<My Pokedex />", () => {
     await act(async () => render(<Pokedex />));
 
     fireEvent.click(screen.getByTestId("add-pokedex"));
+
     expect(screen.getByTestId("modal")).toBeVisible();
   });
 
@@ -54,8 +55,10 @@ describe("<My Pokedex />", () => {
     await act(async () => render(<Pokedex />));
 
     fireEvent.click(screen.getByTestId("add-pokedex"));
+
     expect(screen.getByTestId("modal")).toBeVisible();
     expect(screen.getByTestId("search-input")).toBeVisible();
+
     fireEvent.change(screen.getByTestId("search-input"), {
       target: { value: "Deoxys" },
     });
@@ -63,43 +66,49 @@ describe("<My Pokedex />", () => {
     await waitFor(() => {
       expect(screen.getByTestId("search-input").value).toBe("Deoxys");
     });
-
-    // expect(screen.getByText("Deoxys")).toHaveLength(1);
   });
 
   it("When search pokemon by type", async () => {
+    jest.spyOn(axios, "default").mockResolvedValueOnce({
+      data: {
+        data: mockPokemon,
+      },
+    });
     await act(async () => render(<Pokedex />));
 
     fireEvent.click(screen.getByTestId("add-pokedex"));
+
     await waitFor(() => {
       expect(screen.getByTestId("modal")).toBeVisible();
-      expect(screen.getByTestId("search-input")).toBeVisible();
     });
+    expect(screen.getByTestId("search-input")).toBeVisible();
+
     fireEvent.change(screen.getByTestId("search-input"), {
-      target: { value: "pokemon type" },
+      target: { value: "fire" },
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId("search-input").value).toBe("pokemon type");
-      expect(screen.getByTestId("found-pokemon")).toBeVisible();
+      expect(screen.getByTestId("search-input").value).toBe("fire");
     });
   });
-
-  it("When select card in modal", async () => {});
 
   it("When close modal on backdrop", async () => {
     await act(async () => render(<Pokedex />));
 
     fireEvent.click(screen.getByTestId("add-pokedex"));
+
     await waitFor(() => {
       expect(screen.getByTestId("modal")).toBeVisible();
     });
 
     fireEvent.click(screen.getByTestId("modal-backdrop"));
-    expect(screen.getByTestId("title")).toBeVisible();
+
+    await waitFor(() => {
+      expect(screen.getByTestId("title")).toBeVisible();
+    });
   });
 
-  it("When render my pokedex is not empty card", async () => {
+  it("When select card in modal and render my pokedex is not empty card", async () => {
     jest.spyOn(axios, "default").mockResolvedValueOnce({
       data: {
         data: mockPokemon,
@@ -109,15 +118,51 @@ describe("<My Pokedex />", () => {
     await act(async () => render(<Pokedex />));
 
     fireEvent.click(screen.getByTestId("add-pokedex"));
+
     await waitFor(() => {
       expect(screen.getByTestId("modal")).toBeVisible();
     });
-    // fireEvent.click(screen.getByTestId("modal-backdrop"));
+
+    fireEvent.click(screen.getByTestId("card-pokemon-ex8-98"));
+    fireEvent.click(screen.getByTestId("modal-backdrop"));
 
     await waitFor(() => {
-      // expect(screen.getByTestId("modal")).toMatchSnapshot();
+      expect(screen.getByTestId("found-pokedex")).toHaveTextContent(
+        "Found 1 items"
+      );
     });
   });
 
-  it("When unselect card in my pokedex", () => {});
+  it("When unselect card in my pokedex", async () => {
+    jest.spyOn(axios, "default").mockResolvedValueOnce({
+      data: {
+        data: mockPokemon,
+      },
+    });
+
+    await act(async () => render(<Pokedex />));
+
+    fireEvent.click(screen.getByTestId("add-pokedex"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("modal")).toBeVisible();
+    });
+
+    fireEvent.click(screen.getByTestId("card-pokemon-ex8-98"));
+    fireEvent.click(screen.getByTestId("modal-backdrop"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("found-pokedex")).toHaveTextContent(
+        "Found 1 items"
+      );
+    });
+
+    fireEvent.click(screen.getByTestId("card-pokedex-ex8-98"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("found-pokedex")).toHaveTextContent(
+        "Found 0 item"
+      );
+    });
+  });
 });
