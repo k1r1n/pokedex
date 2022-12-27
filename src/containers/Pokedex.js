@@ -34,7 +34,7 @@ function Pokedex() {
       return {
         ...item,
         hp,
-        strange:
+        strength:
           (item.attacks?.length * 50 > 100 && 100) ||
           item.attacks?.length * 50 ||
           0,
@@ -68,12 +68,16 @@ function Pokedex() {
     setPokemons((prevState) => [...prevState, item]);
   };
 
+  const renderFounded = (id, data) => (
+    <label data-testid={id}>
+      Found {data.length} item{data.length > 0 && "s"}
+    </label>
+  );
+
   return (
     <ContainerStyle data-testid="container">
       <h1 data-testid="title">My Pokédex</h1>
-      <label data-testid="found-pokedex">
-        Found {pokedex.length} item{pokedex.length > 0 && "s"}
-      </label>
+      {renderFounded("found-pokedex", pokedex)}
       <ListStyle id="mypokedex-list">
         {pokedex.map((item) => (
           <Card
@@ -89,9 +93,7 @@ function Pokedex() {
       {isOpen && (
         <Modal id="modal" onClose={onClose}>
           <SearchInput id="search-input" onChange={onChange} />
-          <label data-testid="found-pokemon">
-            Found {pokemons.length} item{pokemons.length > 0 && "s"}
-          </label>
+          {renderFounded("found-pokemon", pokemons)}
           <ListStyle className="scroll">
             {pokemons.map((item) => (
               <Card

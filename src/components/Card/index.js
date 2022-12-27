@@ -36,11 +36,26 @@ export const Card = ({ id, item, onClick }) => {
           />
         </div>
         <div className="meter">
-          <div>{item.damage}</div>
-          <meter value={item.hp} min="0" max="100" />
-          <meter value={item.strange} min="0" max="100" />
-          <meter value={item.weaknesses} min="0" max="100" />
-          <meter value={item.happiness} min="0" max="10" />
+          <div data-testid={`${id}-damage`}>{item.damage}</div>
+          <meter data-testid={`${id}-hp`} value={item.hp} min="0" max="100" />
+          <meter
+            data-testid={`${id}-strength`}
+            value={item.strength}
+            min="0"
+            max="100"
+          />
+          <meter
+            data-testid={`${id}-weaknesses`}
+            value={item.weaknesses}
+            min="0"
+            max="100"
+          />
+          <meter
+            data-testid={`${id}-happiness`}
+            value={item.happiness}
+            min="0"
+            max="10"
+          />
         </div>
       </div>
     </CardStyle>

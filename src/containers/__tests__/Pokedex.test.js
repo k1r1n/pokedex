@@ -165,4 +165,35 @@ describe("<My Pokedex />", () => {
       );
     });
   });
+
+  it("When see card in my pokedex", async () => {
+    jest.spyOn(axios, "default").mockResolvedValueOnce({
+      data: {
+        data: mockPokemon,
+      },
+    });
+
+    await act(async () => render(<Pokedex />));
+
+    fireEvent.click(screen.getByTestId("add-pokedex"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("modal")).toBeVisible();
+    });
+
+    fireEvent.click(screen.getByTestId("card-pokemon-ex8-98"));
+    fireEvent.click(screen.getByTestId("modal-backdrop"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("found-pokedex")).toHaveTextContent(
+        "Found 1 items"
+      );
+    });
+
+    expect(screen.getByTestId("card-pokedex-ex8-98-damage")).toBeVisible();
+    expect(screen.getByTestId("card-pokedex-ex8-98-hp")).toBeVisible();
+    expect(screen.getByTestId("card-pokedex-ex8-98-strength")).toBeVisible();
+    expect(screen.getByTestId("card-pokedex-ex8-98-weaknesses")).toBeVisible();
+    expect(screen.getByTestId("card-pokedex-ex8-98-happiness")).toBeVisible();
+  });
 });

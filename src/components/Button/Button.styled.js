@@ -16,5 +16,6 @@ export const ButtonStyle = styled.div`
   box-shadow: 0 2px 3px ${COLORS.BOTTOM_BAR_SHADOW};
   color: #ffffff;
   font-size: 52px;
+  font-family: monospace;
   cursor: pointer;
 `;
