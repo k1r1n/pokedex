@@ -68,7 +68,7 @@ function Pokedex() {
 
   const renderFounded = (id, data) => (
     <label data-testid={id}>
-      Found {data.length} item{data.length > 0 && "s"}
+      Found {data?.length} item{data?.length > 0 && "s"}
     </label>
   );
 
